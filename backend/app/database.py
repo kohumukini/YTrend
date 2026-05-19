@@ -46,6 +46,9 @@ class SilverStock(Base):
     ticker = Column(String)
     timestamp = Column(DateTime)
     close_price = Column(Float)
+    open_price = Column(Float)
+    high = column(Float)
+    low = column(Float)
     volume = Column(Float)
 
     rsi_14 = Column(Float)

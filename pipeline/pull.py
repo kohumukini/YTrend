@@ -12,12 +12,13 @@ def get_active_watchlist():
         return [t.ticker for t in tickers]
     
 def save_raw_data(ticker, dataframe): 
-    if dataframe.emtpy: 
+    if dataframe.empty: 
         print(f"No data for {ticker}: Skipping... ")
         return
     # Start the session -> Connect to server
     with SessionLocal() as session: 
         # Dataframe as argument
+        dataframe = dataframe.copy()
         dataframe.columns = dataframe.columns.droplevel(1)
         # Dataframe that exists
         exists = session.query(BronzeStock).filter_by(ticker = ticker).first()
@@ -50,3 +51,12 @@ def data_backfill():
 
             save_raw_data(t, ticker_data)
         
+def pull_data(ticker, backfill = False) {
+    for t in active_tickers: 
+        if backfill: 
+            ticker_data = yf.download(t, period = "5y", interval = "1d")
+        else: 
+            ticker_data = yf.download(t, period = "1h", interval = "1m")
+        
+        save_raw_data(t, ticker_data)
+}

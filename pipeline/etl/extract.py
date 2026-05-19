@@ -23,10 +23,12 @@ def update_dataframe(ticker, dataframe):
         return dataframe
 
     compiled_df = (pd.concat([bronze_df, dataframe])
-        .reset_index(names = 'Date')
-        .drop_duplicates(subset = 'Date')
-        .set_index('Date')
+        .reset_index(names = 'timestamp')
+        .drop_duplicates(subset = 'timestamp')
+        .set_index('timestamp')
         .sort_index()
     )
+
+    # Going to have to adjust this. We need the date for the object
     
     return compiled_df

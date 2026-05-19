@@ -84,6 +84,6 @@ def transform(dataframe):
     dataframe = calculate_ewm_rsi(dataframe, 14)
 
     dataframe = calculate_volatility(dataframe, "30D")
-    dataframe = calculate_bollinger_bands(dataframe, "30D")
+    dataframe = calculate_bollinger_bands(dataframe, "30D", 2)
 
     return dataframe
