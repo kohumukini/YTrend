@@ -22,36 +22,26 @@ def save_raw_data(ticker, dataframe):
         dataframe.columns = dataframe.columns.droplevel(1)
         # Dataframe that exists
         exists = session.query(BronzeStock).filter_by(ticker = ticker).first()
+        merged = update_dataframe(ticker, dataframe)
 
         if exists: 
-            merged = update_dataframe(ticker, dataframe)
             exists.raw_json = merged.to_json()
             exists.ingested_at = func.now()
         else:
             new_entry = BronzeStock(
                 ticker = ticker, 
-                raw_json = dataframe.to_json()
+                raw_json = merged.to_json()
+                ingested_at = func.now()
             )
 
             session.add(new_entry)
+
         session.commit()
         print(f"Saved {ticker} data")
-
-def data_backfill(): 
+        
+def pull_data(backfill = False):
     active_tickers = get_active_watchlist()
 
-    for t in active_tickers: 
-        with SessionLocal() as session:
-            exists = session.query(BronzeStock).filter(BronzeStock.ticker == t).first()
-
-            if exists: 
-                ticker_data = yf.download(t, period="1h", interval="1m")
-            else: 
-                ticker_data = yf.download(t, period="5y", interval="1d")
-
-            save_raw_data(t, ticker_data)
-        
-def pull_data(ticker, backfill = False) {
     for t in active_tickers: 
         if backfill: 
             ticker_data = yf.download(t, period = "5y", interval = "1d")
@@ -59,4 +49,3 @@ def pull_data(ticker, backfill = False) {
             ticker_data = yf.download(t, period = "1h", interval = "1m")
         
         save_raw_data(t, ticker_data)
-}

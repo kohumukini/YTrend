@@ -8,7 +8,7 @@ def calculate_moving_average(dataframe, window):
 
     col_name = "".join(filter(str.isdigit, str(window)))
 
-    dataframe[f"SMA_{col_name}"] = (
+    dataframe[f"sma_{col_name}"] = (
         dataframe['Close']
         .rolling(window = window, min_periods = 1)
         .mean()
@@ -31,7 +31,7 @@ def calculate_rsi(dataframe, window_size):
 
     col_name = "".join(filter(str.isdigit, str(window_size)))
 
-    dataframe[f'RSI_{col_name}'] = 100 - (100 / (1 - rs))
+    dataframe[f'rsi_{col_name}'] = 100 - (100 / (1 - rs))
 
     return dataframe
 
@@ -49,7 +49,7 @@ def calculate_ewm_rsi(dataframe, window_size):
 
     col_name = "".join(filter(str.isdigit, str(window_size)))
 
-    dataframe[f'EWM_RSI_{col_name}'] = 100 - (100 / (1 - rs))
+    dataframe[f'ewm_rsi_{col_name}'] = 100 - (100 / (1 - rs))
 
     return dataframe
 
@@ -57,7 +57,7 @@ def calculate_ewm_rsi(dataframe, window_size):
 def calculate_volatility(dataframe, window_size): 
     col_name = "".join(filter(str.isdigit, str(window_size)))
 
-    dataframe[f'Volatility_{col_name}'] = dataframe['Close'].rolling(window = window_size).std()
+    dataframe[f'volatility_{col_name}'] = dataframe['Close'].rolling(window = window_size).std()
 
     return dataframe
 
@@ -69,9 +69,9 @@ def calculate_bollinger_bands(dataframe, window_size, num_std):
 
     col_id = "".join(filter(str.isdigit, str(window_size)))
 
-    dataframe[f'SMA_{col_id}'] = mid_band
-    dataframe[f'BBU_{col_id}'] = mid_band + (num_std * std_dev)
-    dataframe[f'BBL_{col_id}'] = mid_band - (num_std * std_dev)
+    dataframe[f'sma_{col_id}'] = mid_band
+    dataframe[f'bollinger_band_upper_{col_id}'] = mid_band + (num_std * std_dev)
+    dataframe[f'bollinger_band_lower_{col_id}'] = mid_band - (num_std * std_dev)
 
     return dataframe
 

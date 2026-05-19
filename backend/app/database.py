@@ -47,8 +47,8 @@ class SilverStock(Base):
     timestamp = Column(DateTime)
     close_price = Column(Float)
     open_price = Column(Float)
-    high = column(Float)
-    low = column(Float)
+    high = Column(Float)
+    low = Column(Float)
     volume = Column(Float)
 
     rsi_14 = Column(Float)
@@ -62,7 +62,7 @@ class SilverStock(Base):
     bollinger_band_mid_30 = Column(Float)
 
     __table_args__ = (
-        UniqueConstraint('ticker', 'timestamp', name = 'uq_ticker_timestamp')
+        UniqueConstraint('ticker', 'timestamp', name = 'uq_ticker_timestamp'),
     )
 
 # Creates the final table where we output predictive data

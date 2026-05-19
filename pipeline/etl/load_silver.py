@@ -21,18 +21,9 @@ def load_silver(ticker, df):
     # Adjusting names. Assuming perfect intake from transform.py
     # May adjust at a later date
     nameChange = {
-        "Close": "close_price", 
-        "Volume": "volume", 
         "Datetime": "timestamp", 
-        "RSI_14": "rsi_14", 
-        "EWM_RSI_14": "ewm_rsi_14", 
-        "SMA_20": "sma_20", 
-        "SMA_50": "sma_50", 
-        "SMA_100": "sma_100",
-        "Volatility_30": "volatility_30", 
-        "BBU_30": "bollinger_band_upper_30", 
-        "BBL_30": "bollinger_band_lower_30", 
-        "SMA_30": "bollinger_band_mid_30", 
+        "Close": "close_price", 
+        "Volume": "volume",  
         "High": "high", 
         "Low": "low", 
         "Open": "open_price"
@@ -54,7 +45,24 @@ def load_silver(ticker, df):
             session.rollback()
     
 def update_silver(ticker, df): 
+    df.index.name = "timestamp"
+    df = df.reset_index()
+    df['ticker'] = ticker
+    df = df.rename(columns={"Close": "close_price", "Volume": "volume", "High": "high", "Low": "low", "Open": "open_price", "Datetime": "timestamp"})
+    df_mapping = df.to_dict(orient = 'records')
+
     with SessionLocal() as session: 
-        statement = insert(SilverStock).values(
-            ticker
-        )
+        try: 
+            statement = insert(SilverStock).values(df_mapping)
+            statement = statement.on_conflict_do_update(
+                index_elements = ['ticker', 'timestamp'], 
+                set_ = {c.key: c for c in statement.excluded if c.key not in ('ticker', 'timestamp')}
+            )
+
+            session.execute(statement)
+            session.commit()
+
+        except Exception as e: 
+            print(f"Error: {type(e).__name__}")
+            print(f"Error Traceback: {traceback.format_exc()}")
+            session.rollback()
