@@ -12,7 +12,7 @@
  
 
 ## Overview
-YTrend is a personal full-stack project for financial analytics that ingests real-time & historical data. The data is fed into a medallian ETL pipeline that produces ML predicted buy/sell signals with confidence scores to a React dashboard. 
+YTrend is a personal full-stack project for financial analytics that ingests real-time & historical data. The data is fed into a medallion ETL pipeline that produces ML predicted buy/sell signals with confidence scores to a React dashboard. 
 
 Built with: 
 - **Backend** - Python & FastAPI
