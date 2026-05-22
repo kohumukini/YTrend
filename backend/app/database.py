@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, BigInteger, Integer, String, Float, Boolean, DateTime, ARRAY, JSON, func, create_engine
+from sqlalchemy import Column, BigInteger, Integer, String, Text, Float, Boolean, DateTime, ARRAY, JSON, func, create_engine, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from dotenv import load_dotenv
 

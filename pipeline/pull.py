@@ -43,20 +43,51 @@ def save_raw_data(ticker, dataframe):
         print(f"Saved {ticker} data")
         
 def pull_data():
+    active_tickers = get_active_watchlist()
+    today = datetime.now()
+
+    errors = []
+    backfill = []
+    success = True
+
+    time_delta = "5y"
+
     with SessionLocal() as session: 
         exists = session.query(PullLog).filter(PullLog.is_success == True).order_by(PullLog.pulled_at.desc()).first()
+       
+        if exists: 
+            last_pull = exists.pulled_at
+            delta = today - last_pull
+            time_delta = f"{math.ceil(delta.days)}d"
 
-    if not exists: 
-        time_period = "5y"
+            pulled_tickers = exists.tickers_pulled
+            backfill = list(set(active_tickers) - set(pulled_tickers))
+        else: 
+            backfill = active_tickers
 
-    else: 
-        today = datetime.now()
-        last_pull = exists.pulled_at
-        delta = today - last_pull
-        time_period = f"{math.ceil(delta.days)}d"
 
-    active_tickers = get_active_watchlist()
-    
     for t in active_tickers: 
-        ticker_data = yf.download(t, period = time_period, interval = "1d")
-        save_raw_data(ticker_data)
+        if t in backfill: 
+            time_period = "5y"
+        else: 
+            time_period = time_delta
+
+
+        try: 
+            ticker_data = yf.download(t, period = time_period,  interval = "1d")
+            save_raw_data(t, ticker_data)
+        except Exception as e: 
+            print(f"Error: {e}")
+            success = False
+            errors.extend(str(e))
+            continue
+
+    with SessionLocal() as session: 
+        new_entry = PullLog(
+            tickers_pulled = active_tickers, 
+            is_success = success, 
+            error_message = "\n\n".join(errors) if errors else None
+        )
+
+        session.add(new_entry)
+        session.commit()
