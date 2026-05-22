@@ -1,10 +1,13 @@
 # Imports
 import os
+import math
 import yfinance as yf
+import pandas as pd
 
 from sqlalchemy import func
-from ..backend.app.database import SessionLocal, BronzeStock, Watchlist
-from .etl.extract import get_json_bronze, update_dataframe
+from datetime import datetime, timedelta
+from ..backend.app.database import SessionLocal, BronzeStock, Watchlist, PullLog
+from .etl.extract import update_dataframe
 
 def get_active_watchlist(): 
     with SessionLocal() as session: 
@@ -30,7 +33,7 @@ def save_raw_data(ticker, dataframe):
         else:
             new_entry = BronzeStock(
                 ticker = ticker, 
-                raw_json = merged.to_json()
+                raw_json = merged.to_json(),
                 ingested_at = func.now()
             )
 
@@ -39,13 +42,21 @@ def save_raw_data(ticker, dataframe):
         session.commit()
         print(f"Saved {ticker} data")
         
-def pull_data(backfill = False):
-    active_tickers = get_active_watchlist()
+def pull_data():
+    with SessionLocal() as session: 
+        exists = session.query(PullLog).filter(PullLog.is_success == True).order_by(PullLog.pulled_at.desc()).first()
 
+    if not exists: 
+        time_period = "5y"
+
+    else: 
+        today = datetime.now()
+        last_pull = exists.pulled_at
+        delta = today - last_pull
+        time_period = f"{math.ceil(delta.days)}d"
+
+    active_tickers = get_active_watchlist()
+    
     for t in active_tickers: 
-        if backfill: 
-            ticker_data = yf.download(t, period = "5y", interval = "1d")
-        else: 
-            ticker_data = yf.download(t, period = "1h", interval = "1m")
-        
-        save_raw_data(t, ticker_data)
+        ticker_data = yf.download(t, period = time_period, interval = "1d")
+        save_raw_data(ticker_data)

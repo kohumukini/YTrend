@@ -1,19 +1,4 @@
-import subprocesses
-import sys
-
-from pathlib import Path
-from prefect import flow, task
-
-def run_script(path): 
-    base_path = Path(__file__).parent.parent
-    script_path = base_path / path
-
-    return subprocesses.run(
-        [sys.executable, str(script_path)], 
-        check = True, 
-        cwd = str(base_path)
-    )
-
-@task
-def pull_raw(): 
-    run_script("pipeline/etl/")
+from .etl.extract import update_dataframe()
+from .pull import pull_data, save_raw_data()
+from .etl.transform import transform()
+from .etl.load_silver import update_silver()
