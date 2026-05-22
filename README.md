@@ -24,6 +24,31 @@ Built with:
 
 --- 
 
+## Intended Functionality
+<h3>Ingestion</h3>
+
+- Adjust ticker watchlist to house primary tickers selected by the user
+- From watchlist, ingest yfinance dataframes for each ticker in json format within the bronze layer
+- Store and repeat ingestion in incremented bits daily
+- Storage pattern: Extract historical data from bronze layer -> Combine data with new dataframe -> Clean data -> Re-integrate with bronze layer
+
+<h3>Transformation</h3>
+
+- Extract data from the bronze layer as a pandas dataframe
+- Run through tranformation architecture to
+    - Calculate rolling SMA 20/50/100
+    - Calculate rsi on 14 day period
+    - Calculate Volatility on 30 day period
+    - Calculate Bollinger Band (2 std away from SMA 30) range
+- Push back into silver medallian architecture 
+- Update silver layer with on-conflict-do-update
+
+<h3>Prediction</h3>
+
+<h3>Visualization</h3>
+
+- TBC
+
 ## Architecture
 
 **Medallian Data Architecture:** Used for ETL to refine data into predictions. 
@@ -51,6 +76,19 @@ yFinance Library
 |               |
 |      GOLD     |   Predictions - LSTM price forecast + buy/sell signal from classification
 |_______________|
+
+Additional Database Tables
+
+ _______________
+|               |
+|    PullLog    | Stores intake information - Tickers Pulled, ingestion date, ingestion success, and error messages
+|_______________|
+
+ _______________
+|               |
+|   WatchList   | Stores ticker information - Tickers watched, tickers active, & date added
+|_______________|
+
 ```
 
 ## Tech
@@ -88,3 +126,4 @@ yFinance Library
 - [ ] Complete Gold ETL Layer
 - [ ] Automate Ingestion
 - [ ] TBA
+
