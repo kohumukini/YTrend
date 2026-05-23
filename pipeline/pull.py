@@ -46,10 +46,12 @@ def pull_data():
     active_tickers = get_active_watchlist()
     today = datetime.now()
 
+    results = {}
+
     errors = []
     backfill = []
-    success = True
 
+    overall_success = True
     time_delta = "5y"
 
     with SessionLocal() as session: 
@@ -67,6 +69,9 @@ def pull_data():
 
 
     for t in active_tickers: 
+        info = {}
+        success = True
+
         if t in backfill: 
             time_period = "5y"
         else: 
@@ -76,11 +81,20 @@ def pull_data():
         try: 
             ticker_data = yf.download(t, period = time_period,  interval = "1d")
             save_raw_data(t, ticker_data)
+
+            info["success"] = True
+            info["data"] = ticker_data
         except Exception as e: 
             print(f"Error: {e}")
             success = False
             errors.extend(str(e))
+
+            info["success"] = False
+            info["data"] = None
+
             continue
+        finally: 
+            results[t] = info
 
     with SessionLocal() as session: 
         new_entry = PullLog(
@@ -91,3 +105,5 @@ def pull_data():
 
         session.add(new_entry)
         session.commit()
+
+    return results
