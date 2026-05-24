@@ -70,7 +70,6 @@ def pull_data():
 
     for t in active_tickers: 
         info = {}
-        success = True
 
         if t in backfill: 
             time_period = "5y"
@@ -83,14 +82,14 @@ def pull_data():
             save_raw_data(t, ticker_data)
 
             info["success"] = True
-            info["data"] = ticker_data
+            info["period"] = time_period
         except Exception as e: 
             print(f"Error: {e}")
-            success = False
-            errors.extend(str(e))
+            overall_success = False
+            errors.append(str(e))
 
             info["success"] = False
-            info["data"] = None
+            info["error"] = str(e)
 
             continue
         finally: 
@@ -99,7 +98,7 @@ def pull_data():
     with SessionLocal() as session: 
         new_entry = PullLog(
             tickers_pulled = active_tickers, 
-            is_success = success, 
+            is_success = overall_success, 
             error_message = "\n\n".join(errors) if errors else None
         )
 
