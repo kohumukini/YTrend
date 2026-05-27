@@ -5,7 +5,7 @@ import yfinance as yf
 import pandas as pd
 
 from sqlalchemy import func
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from ..backend.app.database import SessionLocal, BronzeStock, Watchlist, PullLog
 from .etl.extract import update_dataframe
 
@@ -28,8 +28,7 @@ def save_raw_data(ticker, dataframe):
         merged = update_dataframe(ticker, dataframe)
 
         if exists: 
-            exists.raw_json = merged.to_json()
-            exists.ingested_at = func.now()
+            exists.raw_json = merged.to_json() # type: ignore
         else:
             new_entry = BronzeStock(
                 ticker = ticker, 
@@ -44,7 +43,7 @@ def save_raw_data(ticker, dataframe):
         
 def pull_data():
     active_tickers = get_active_watchlist()
-    today = datetime.now()
+    today = datetime.now(tz = timezone.utc)
 
     results = {}
 
@@ -63,7 +62,7 @@ def pull_data():
             time_delta = f"{math.ceil(delta.days)}d"
 
             pulled_tickers = exists.tickers_pulled
-            backfill = list(set(active_tickers) - set(pulled_tickers))
+            backfill = list(set(active_tickers) - set(pulled_tickers)) # type: ignore 
         else: 
             backfill = active_tickers
 

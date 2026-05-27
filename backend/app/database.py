@@ -1,6 +1,9 @@
 import os
-from sqlalchemy import Column, BigInteger, Integer, String, Text, Float, Boolean, DateTime, ARRAY, JSON, func, create_engine, UniqueConstraint
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from datetime import datetime
+from typing import Optional
+from sqlalchemy import Column, BigInteger, Integer, String, Text, Float, Boolean, DateTime, JSON, func, create_engine, UniqueConstraint
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.orm import DeclarativeBase, sessionmaker, Mapped, mapped_column
 from dotenv import load_dotenv
 
 # Loading the environment file
@@ -88,11 +91,11 @@ class Watchlist(Base):
 class PullLog(Base): 
     __tablename__ = "yfinance_pull_log"
 
-    id = Column(BigInteger, primary_key = True, autoincrement = True)
-    pulled_at = Column(DateTime(timezone = True), server_default = func.now())
-    tickers_pulled = Column(ARRAY(Text))
-    is_success = Column(Boolean, default = True)
-    error_message = Column(Text, nullable = True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    pulled_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    tickers_pulled: Mapped[list[str]] = mapped_column(ARRAY(String))
+    is_success: Mapped[bool] = mapped_column(Boolean, default=True)
+    error_message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     
 
