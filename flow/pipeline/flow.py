@@ -19,14 +19,14 @@ def silver_task(ticker, df):
     update_silver(ticker, df)
 
 @flow(name = "YTrend Pipeline")
-def run_pipeline():
+def flow_pipeline():
     response = bronze_task()
 
-    for ticker, info in response.items(): 
+    for t, info in response.items(): 
         if info["success"]: 
             df = get_json_bronze(t)
             if df is not None: 
                 transformed_df = transform_task(df)
-                silver_task(ticker, transformed_df)
+                silver_task(t, transformed_df)
             else: 
-                logging.warning(f"{ticker} returned None from bronze - Skipping")
+                logging.warning(f"{t} returned None from bronze - Skipping")
