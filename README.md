@@ -127,3 +127,6 @@ Additional Database Tables
 - [ ] Automate Ingestion
 - [ ] TBA
 
+## Lessons Learned
+- Project development should closely model the agile framework. Incremental steps for database features include a roadmap from SQLite Files -> Localized Postgres -> Dockerized Postgres Imaging to produce consistent deliverables without wasting time on environment creation. 
+- FastAPI routers are built like React components in their architecture, allowing main app to run complex delegated tasks with just headers and reducing overhead. 
