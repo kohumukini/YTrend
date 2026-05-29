@@ -2,7 +2,7 @@ import pandas as pd
 
 from sqlalchemy import select
 from io import StringIO
-from ...backend.app.database import SessionLocal, BronzeStock
+from ...database import SessionLocal, BronzeStock
 
 def get_json_bronze(ticker):
     with SessionLocal() as session: 

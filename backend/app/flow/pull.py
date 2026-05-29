@@ -6,7 +6,7 @@ import pandas as pd
 
 from sqlalchemy import func
 from datetime import datetime, timedelta, timezone
-from ..backend.app.database import SessionLocal, BronzeStock, Watchlist, PullLog
+from ..database import SessionLocal, BronzeStock, Watchlist, PullLog
 from .etl.extract import update_dataframe
 
 def get_active_watchlist(): 

@@ -1,7 +1,7 @@
 import traceback
 
 from sqlalchemy.dialects.postgresql import insert
-from ...backend.app.database import SilverStock, SessionLocal
+from ...database import SilverStock, SessionLocal
     
 def update_silver(ticker, df): 
     df.index.name = "timestamp"

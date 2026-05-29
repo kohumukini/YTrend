@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .routers import pipeline 
 from contextlib import asynccontextmanager
 from app.database import ENGINE, init_db
 from app.seed import seed_watchlist
@@ -20,6 +21,8 @@ app.add_middleware(
     allow_methods=["*"], 
     allow_headers=["*"]
 )
+
+app.include_router(pipeline.router)
 
 @app.get("/")
 def read_root(): 

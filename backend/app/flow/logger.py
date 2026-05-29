@@ -1,6 +1,6 @@
 import logging
 import logging.config
-from ..flow import flow_pipeline
+
 
 
 LOGGING_CONFIG = {
@@ -53,12 +53,3 @@ LOGGING_CONFIG = {
 logging.config.dictConfig(LOGGING_CONFIG)
 
 logger = logging.getLogger(__name__)
-
-if __name__ == "__main__": 
-    try: 
-        logger.info("Pipeline starting...")
-        flow_pipeline()
-        logger.info("Pipeline run successfully")
-    except Exception as e: 
-        logger.critical(f"Pipeline failed: Rendering Issue: {e}", exc_info = True)
-        # exc info full traceback implementation

@@ -1,5 +1,4 @@
-import logging
-from prefect import task, flow
+from .logger import logger
 
 from .etl.transform import transform
 from .pull import pull_data
@@ -29,4 +28,4 @@ def flow_pipeline():
                 transformed_df = transform_task(df)
                 silver_task(t, transformed_df)
             else: 
-                logging.warning(f"{t} returned None from bronze - Skipping")
+                logger.warning(f"{t} returned None from bronze - Skipping")
