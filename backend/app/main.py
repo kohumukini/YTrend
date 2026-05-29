@@ -4,15 +4,6 @@ from contextlib import asynccontextmanager
 from app.database import ENGINE, init_db
 from app.seed import seed_watchlist
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware, 
-    allow_origins=["http://localhost:5173"], 
-    allow_methods=["*"], 
-    allow_headers=["*"]
-)
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
@@ -21,7 +12,14 @@ async def lifespan(app: FastAPI):
     print("Tables Created!")
     yield
 
-app = FastAPI(lifespan = lifespan)
+app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=["http://localhost:5173"], 
+    allow_methods=["*"], 
+    allow_headers=["*"]
+)
 
 @app.get("/")
 def read_root(): 

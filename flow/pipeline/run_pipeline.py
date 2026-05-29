@@ -1,6 +1,6 @@
 import logging
 import logging.config
-from .flow import flow_pipeline
+from ..flow import flow_pipeline
 
 
 LOGGING_CONFIG = {

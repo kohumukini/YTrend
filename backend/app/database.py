@@ -85,7 +85,7 @@ class Watchlist(Base):
 
     id = Column(Integer, primary_key = True)
     ticker = Column(String)
-    date_added = Column(DateTime)
+    date_added = Column(DateTime, server_default=func.now())
     status = Column(String)
 
 class PullLog(Base): 

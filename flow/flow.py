@@ -1,24 +1,24 @@
 import logging
 from prefect import task, flow
 
-from ..etl.transform import transform
-from ..pull import pull_data
-from ..etl.load_silver import update_silver
-from ..etl.extract import get_json_bronze
+from .etl.transform import transform
+from .pull import pull_data
+from .etl.load_silver import update_silver
+from .etl.extract import get_json_bronze
 
-@task(retries = 3, retry_delay_seconds = 60)
+#@task(retries = 3, retry_delay_seconds = 60)
 def bronze_task():
     return pull_data()
 
-@task
+#@task
 def transform_task(df): 
     return transform(df)
 
-@task 
+#@task 
 def silver_task(ticker, df): 
     update_silver(ticker, df)
 
-@flow(name = "YTrend Pipeline")
+#@flow(name = "YTrend Pipeline")
 def flow_pipeline():
     response = bronze_task()
 
