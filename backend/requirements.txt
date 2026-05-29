@@ -74,6 +74,7 @@ pluggy==1.6.0
 prefect==3.7.2
 prometheus_client==0.25.0
 protobuf==7.35.0
+psycopg2-binary==2.9.12
 py-key-value-aio==0.4.4
 pycparser==3.0
 pydantic==2.13.3

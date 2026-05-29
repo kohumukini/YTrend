@@ -11,4 +11,5 @@ router = APIRouter(
 async def trigger_pipeline(background_tasks: BackgroundTasks):
     logger.info("Pipeline starting (API) ...")
     background_tasks.add_task(flow_pipeline)
+    logger.info("Pipeline successfully run (API)!")
     return {"message": "Pipeline triggered successfully"}

@@ -59,7 +59,7 @@ def pull_data():
         if exists: 
             last_pull = exists.pulled_at
             delta = today - last_pull
-            time_delta = f"{math.ceil(delta.days)}d"
+            time_delta = f"{math.ceil(1, delta.days)}d"
 
             pulled_tickers = exists.tickers_pulled
             backfill = list(set(active_tickers) - set(pulled_tickers)) # type: ignore 

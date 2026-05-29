@@ -69,7 +69,7 @@ def calculate_bollinger_bands(dataframe, window_size, num_std):
 
     col_id = "".join(filter(str.isdigit, str(window_size)))
 
-    dataframe[f'sma_{col_id}'] = mid_band
+    dataframe[f'bollinger_band_mid_{col_id}'] = mid_band
     dataframe[f'bollinger_band_upper_{col_id}'] = mid_band + (num_std * std_dev)
     dataframe[f'bollinger_band_lower_{col_id}'] = mid_band - (num_std * std_dev)
 
