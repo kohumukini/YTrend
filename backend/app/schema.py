@@ -4,7 +4,7 @@ from datetime import datetime
 class AppBase(BaseModel):
     model_config = ConfigDict(from_attributes = True)
 
-class WatchListItem(AppBase): 
+class WatchlistItem(AppBase): 
     ticker: str
     date_added: datetime
     status: str

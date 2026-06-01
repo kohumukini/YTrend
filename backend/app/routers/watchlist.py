@@ -12,18 +12,27 @@ router = APIRouter(
 
 @router.get("/data", response_model = list[WatchListSchema])
 def get_watchlist_data(db: Session = Depends(get_db_session)):
-    row = db.query(Watchlist).order_by(Watchlist.date_added.desc()).first()
+    row = db.query(Watchlist).filter(Watchlist.status == "active").order_by(Watchlist.date_added.desc()).all()
     
     if row: 
-        logger.info(f"Found {row} in watchlist")
+        logger.info(f"Found {len(row)} in watchlist")
         return row
     else: 
         logger.warning(f"No data found for watchlist")
         return {"message": "No data found for watchlist"}
     
-@router.post("/add/{ticker}", response_model = list[WatchListSchema])
+@router.post("/add/{ticker}", response_model = WatchListSchema)
 def add_to_watchlist(ticker: str, db: Session = Depends(get_db_session)):
+    exists = db.query(Watchlist).filter_by(ticker = ticker).first() is not None
+    
+    if exists: 
+        raise HTTPException(
+            status_code = status.HTTP_400_BAD_REQUEST,
+            detail = f"{ticker} already exists within watchlist"
+        )
+    
     new_entry = Watchlist(ticker = ticker, status = "active")
+    
     try: 
         db.add(new_entry)
         db.commit()
@@ -38,7 +47,7 @@ def add_to_watchlist(ticker: str, db: Session = Depends(get_db_session)):
 
 @router.delete("/remove/{ticker}")
 def remove_from_watchlist(ticker: str, db: Session = Depends(get_db_session)):
-    entry_to_remove = db.query(Watchlist).filter(Watchlist.ticker == ticker).all()
+    entry_to_remove = db.query(Watchlist).filter(Watchlist.ticker == ticker).first()
     
     if entry_to_remove: 
         try: 
@@ -51,6 +60,11 @@ def remove_from_watchlist(ticker: str, db: Session = Depends(get_db_session)):
             logger.warning(f"Error occured while attempting to remove {ticker}: \n{e}")
             db.rollback()
             raise HTTPException(
-                status_code = status.HTTP_500_Internal_Service_Error, 
+                status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, 
                 detail = f"An unexpected error occured while attempting to remove {ticker} from watchlist"
             )
+    else: 
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND, 
+            detail = f"{ticker} not found in watchlist"
+        )
