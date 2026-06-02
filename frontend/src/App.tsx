@@ -1,15 +1,10 @@
-interface ButtonProps {
-  text: string; 
-}
+import './index.css';
+import Header from "./components/Header"; 
 
-const Button = ({ text }: ButtonProps) => (
-  <button onClick={() => console.log("Hi")}>{text}</button>
-)
-
-export default function App() {
+function App() {
   return (
-    <div>
-      <Button text="Something" />
-    </div>
+    <Header />
   )
 }
+
+export default App
