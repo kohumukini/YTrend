@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Toolbar from "./components/Toolbar"
 import DataChart from "./components/DataChart";
 import StatsSidebar from './components/StatsSidebar';
+import StatsAndPredictions from "./components/StatsAndPredictions";
 
 function App() {
   return (
@@ -17,9 +18,7 @@ function App() {
           <StatsSidebar />
         </aside>
       </main>
-      <div>
-        Stats
-      </div>
+      <StatsAndPredictions />
       <footer className="bg-[#141418] w-full p-4 border-t border-white/10">
         All Rights Reserved
       </footer>

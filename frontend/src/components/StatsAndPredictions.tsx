@@ -1,0 +1,37 @@
+type ItemCardProps = {
+    label: string;
+    value: string;
+    isPositive?: boolean; 
+    isOrange?: boolean; 
+}
+
+const ItemCard = ({label, value, isOrange}: ItemCardProps) => {
+
+    return (
+        <div className="bg-[#212124] py-4 px-6 rounded-3xl w-[30%]">
+            <p className="text-l">{label}</p>
+            <p className={`text-3xl ${isOrange ? "text-[#FF6B2B]": "text-white"}`}>{value}</p>
+        </div>
+    )
+}
+
+const StatsAndPredictions = () => {
+    return (
+        <div className="flex flex-col w-full items-center">
+            <h3 className="text-2xl font-bold text-[#818184]">Statistics</h3>
+            <section className="flex flex-row w-[80%] justify-between p-4 items-center ">
+                <ItemCard label="P/E Ratio" value="20" />
+                <ItemCard label="Div Yield" value="1%" />
+                <ItemCard label="EPS" value="$2.00" />
+            </section>
+            <h3 className="text-2xl font-bold text-[#818184]">Predictions</h3>
+            <section className="flex flex-row w-[80%] justify-between p-4 items-center">
+                <ItemCard label="Tomorrow's Forecast" value="$100.10" isOrange={true}/>
+                <ItemCard label="Confidence %" value="50%" />
+                <ItemCard label="Signal" value="Buy" isOrange={true}/>
+            </section>
+        </div>
+    )
+}
+
+export default StatsAndPredictions; 
