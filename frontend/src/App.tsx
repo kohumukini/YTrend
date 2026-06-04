@@ -2,6 +2,7 @@ import './index.css';
 import Header from "./components/Header"; 
 import Toolbar from "./components/Toolbar"
 import DataChart from "./components/DataChart";
+import StatsSidebar from './components/StatsSidebar';
 
 function App() {
   return (
@@ -12,10 +13,8 @@ function App() {
           <Toolbar />
           <DataChart />
         </div>
-        <aside className="basis-1/4 bg-[#141418]">
-          <div>
-            Sidebar
-          </div>
+        <aside className="basis-1/4 bg-[#141418] p-8">
+          <StatsSidebar />
         </aside>
       </main>
       <div>
