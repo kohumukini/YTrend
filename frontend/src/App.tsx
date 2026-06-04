@@ -4,6 +4,7 @@ import Toolbar from "./components/Toolbar"
 import DataChart from "./components/DataChart";
 import StatsSidebar from './components/StatsSidebar';
 import StatsAndPredictions from "./components/StatsAndPredictions";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -14,14 +15,12 @@ function App() {
           <Toolbar />
           <DataChart />
         </div>
-        <aside className="basis-1/4 bg-[#141418] p-8">
+        <aside className="basis-1/4 bg-[#141418] p-8 border-l border-white/10">
           <StatsSidebar />
         </aside>
       </main>
       <StatsAndPredictions />
-      <footer className="bg-[#141418] w-full p-4 border-t border-white/10">
-        All Rights Reserved
-      </footer>
+      <Footer />
     </div>  
   )
 }

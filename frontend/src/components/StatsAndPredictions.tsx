@@ -17,15 +17,15 @@ const ItemCard = ({label, value, isOrange}: ItemCardProps) => {
 
 const StatsAndPredictions = () => {
     return (
-        <div className="flex flex-col w-full items-center">
+        <div className="flex flex-col w-full items-center border-t border-white/10">
             <h3 className="text-2xl font-bold text-[#818184]">Statistics</h3>
-            <section className="flex flex-row w-[80%] justify-between p-4 items-center ">
+            <section className="flex flex-row w-[80%] justify-evenly p-4 items-center ">
                 <ItemCard label="P/E Ratio" value="20" />
                 <ItemCard label="Div Yield" value="1%" />
                 <ItemCard label="EPS" value="$2.00" />
             </section>
             <h3 className="text-2xl font-bold text-[#818184]">Predictions</h3>
-            <section className="flex flex-row w-[80%] justify-between p-4 items-center">
+            <section className="flex flex-row w-[80%] justify-evenly p-4 items-center">
                 <ItemCard label="Tomorrow's Forecast" value="$100.10" isOrange={true}/>
                 <ItemCard label="Confidence %" value="50%" />
                 <ItemCard label="Signal" value="Buy" isOrange={true}/>
