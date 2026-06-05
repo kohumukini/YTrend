@@ -29,7 +29,7 @@ export interface RawGoldItem {
     confidence_score: number;
 }
 
-export interface WatchListItem {
+export interface RawWatchListItem {
     ticker: string;
     date_added: string; 
     status: string;
