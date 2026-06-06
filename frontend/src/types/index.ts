@@ -56,7 +56,7 @@ export interface SidebarStats {
 }
 
 export interface PredictionData {
-    forecast: number; 
-    signal: string;
-    confidence: number; 
+    forecast?: number; 
+    signal?: string;
+    confidence?: number; 
 }
