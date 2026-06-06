@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:8000';
 // Transformation functions
 
 export const SilverToChart = (raw: RawSilverItem[]): ChartDataPoint[] => {
-    return raw.map(item => ({
-        date: new Date(item.timestamp), 
+    return [...raw].reverse().map(item => ({
+        date: item.timestamp, 
         close: item.close_price, 
         rsi: item.rsi_14, 
         sma_20: item.sma_20, 
@@ -20,19 +20,20 @@ export const SilverToChart = (raw: RawSilverItem[]): ChartDataPoint[] => {
 };
 
 export const SilverToSidebar = (raw: RawSilverItem[]): SidebarStats => {
-    const lastItem = raw[raw.length - 1]; 
+    const lastItem = raw[0]; 
+    const pastYear = raw.slice(0, 365); 
 
     return {
         currentPrice: lastItem.close_price, 
         volume: lastItem.volume, 
-        yearlyHigh: Math.max(...raw.map(item => item.high)), 
-        yearlyLow: Math.min(...raw.map(item => item.low)), 
+        yearlyHigh: pastYear.reduce((max, item) => item.high > max ? item.high : max, raw[0].high), 
+        yearlyLow: pastYear.reduce((min, item) => item.low < min ? item.low : min, raw[0].low), 
         volatility: lastItem.volatility_30 ?? 0,
     };
 };
 
 export const GoldToPrediction = (raw: RawGoldItem[]): PredictionData => {
-    const lastItem = raw[raw.length - 1]; 
+    const lastItem = raw[0]; 
 
     return {
         forecast: lastItem.lstm_prediction ?? 0, 

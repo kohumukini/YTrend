@@ -19,13 +19,23 @@ def silver_task(ticker, df):
 
 #@flow(name = "YTrend Pipeline")
 def flow_pipeline():
+    logger.info("Pipeline starting...")
     response = bronze_task()
 
     for t, info in response.items(): 
         if info["success"]: 
-            df = get_json_bronze(t)
-            if df is not None: 
+            try: 
+                df = get_json_bronze(t)
                 transformed_df = transform_task(df)
                 silver_task(t, transformed_df)
-            else: 
-                logger.warning(f"{t} returned None from bronze - Skipping")
+                logger.info(f"[{t}] Silver updated successfully")
+            except ValueError as e: 
+                logger.error(f"[{t}] Error: {e}")
+                
+            except Exception as e: 
+                logger.error(f"[{t}] Pipeline failed: {type(e).__name__}: {e}")
+                
+        else: 
+            logger.warning(f"[{t}] Bronze pull unsuccessful - skipping {t}")
+            
+    logger.info("flow_pipeline complete")

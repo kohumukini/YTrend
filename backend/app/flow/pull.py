@@ -55,7 +55,7 @@ def pull_data():
 
     with SessionLocal() as session: 
         exists = session.query(PullLog).filter(PullLog.is_success == True).order_by(PullLog.pulled_at.desc()).first()
-       
+
         if exists: 
             last_pull = exists.pulled_at
             delta = today - last_pull

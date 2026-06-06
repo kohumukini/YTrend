@@ -47,7 +47,8 @@ const App = () => {
         // predictionData: GoldToPrediction(goldRaw), 
       }))
     } catch (err) {
-      setError("Failed to fetch data"); 
+      const message = err instanceof Error ? err.message : "Failed to fetch data";
+      setError(message); 
       console.error("Pipeline failed:", err); 
     } finally {
       setIsLoading(false)

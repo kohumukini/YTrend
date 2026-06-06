@@ -2,7 +2,7 @@
 
 export interface RawSilverItem {
     ticker: string;
-    timestamp: string;
+    timestamp: number;
     close_price: number;
     open_price: number;
     high: number;
@@ -36,7 +36,7 @@ export interface RawWatchListItem {
 }
 
 export interface ChartDataPoint {
-    date: Date; 
+    date: number; 
     close: number; 
     rsi?: number; 
     sma_20?: number; 
