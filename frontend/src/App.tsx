@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './index.css';
 
 // API requests
-import { SilverToChart, SilverToSidebar, GoldToPrediction, fetchSilverData, fetchGoldData } from "./services/api"; 
+import { SilverToChart, SilverToSidebar/*, GoldToPrediction*/, fetchSilverData/*, fetchGoldData */} from "./services/api"; 
 
 // Type imports
 import { type ChartDataPoint, type SidebarStats, type PredictionData } from "./types/index"; 
@@ -38,13 +38,13 @@ const App = () => {
     setError(null)
     try {
       const silverRaw = await fetchSilverData(dashboard.ticker)
-      const goldRaw = await fetchGoldData(dashboard.ticker)
+      // const goldRaw = await fetchGoldData(dashboard.ticker)
       
       setDashboard((prevDash) => ({
         ...prevDash, 
         chartData: SilverToChart(silverRaw), 
         sidebarStats: SilverToSidebar(silverRaw), 
-        predictionData: GoldToPrediction(goldRaw), 
+        // predictionData: GoldToPrediction(goldRaw), 
       }))
     } catch (err) {
       setError("Failed to fetch data"); 

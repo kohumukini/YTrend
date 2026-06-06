@@ -43,7 +43,7 @@ export const GoldToPrediction = (raw: RawGoldItem[]): PredictionData => {
 
 // Fetch Functions
 export async function fetchSilverData(ticker: string): Promise<RawSilverItem[]> {
-    const response = await fetch(`${BASE_URL}/${ticker}/data`, {
+    const response = await fetch(`${BASE_URL}/silver/${ticker}/data`, {
         method: 'GET', 
         headers: {
             'Content-type': 'application/json', 
@@ -57,23 +57,23 @@ export async function fetchSilverData(ticker: string): Promise<RawSilverItem[]> 
     return response.json(); 
 }
 
-export async function fetchGoldData(ticker: string): Promise<RawGoldItem[]> {
-    const response = await fetch(`${BASE_URL}/${ticker}`, {
-        method: 'GET', 
-        headers: {
-            'Content-type': 'application/json', 
-        },
-    })
+// export async function fetchGoldData(ticker: string): Promise<RawGoldItem[]> {
+//     const response = await fetch(`${BASE_URL}/${ticker}`, {
+//         method: 'GET', 
+//         headers: {
+//             'Content-type': 'application/json', 
+//         },
+//     })
     
-    if (!response.ok) {
-        throw new Error(`Error fetching data for gold ticker ${ticker}: ${response.statusText}`)
-    }
+//     if (!response.ok) {
+//         throw new Error(`Error fetching data for gold ticker ${ticker}: ${response.statusText}`)
+//     }
 
-    return response.json(); 
-}
+//     return response.json(); 
+// }
 
 export async function fetchWatchListData(): Promise<RawWatchListItem[]> {
-    const response = await fetch(`${BASE_URL}/data`, {
+    const response = await fetch(`${BASE_URL}/watchlist/data`, {
         method: 'GET', 
         headers: {
             'Content-type': 'application/json', 
