@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..database import get_db_session, SilverStock
@@ -20,4 +20,4 @@ def get_silver_data(ticker: str, limit: int = 365,  db: Session = Depends(get_db
         return rows
     else: 
         logger.warning(f"No data found for {ticker} in silver")
-        return {"message": f"No data found for {ticker} in silver"}
+        raise HTTPException(status_code=404, detail=f"No data found for ticker: {ticker}")

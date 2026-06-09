@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import Column, BigInteger, Integer, String, Text, Float, Boolean, DateTime, JSON, func, create_engine, UniqueConstraint
@@ -7,7 +8,7 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker, Mapped, mapped_column
 from dotenv import load_dotenv
 
 # Loading the environment file
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent.parent / "docker" / ".env")
 
 # Getting the database information from the .env file
 USER = os.getenv("DB_USER")

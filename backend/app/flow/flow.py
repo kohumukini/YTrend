@@ -1,9 +1,9 @@
 from .logger import logger
-
 from .etl.transform import transform
 from .pull import pull_data
 from .etl.load_silver import update_silver
 from .etl.extract import get_json_bronze
+from ..database import SessionLocal, PullLog
 
 #@task(retries = 3, retry_delay_seconds = 60)
 def bronze_task():
@@ -21,6 +21,8 @@ def silver_task(ticker, df):
 def flow_pipeline():
     logger.info("Pipeline starting...")
     response = bronze_task()
+    
+    transformation_errors = []
 
     for t, info in response.items(): 
         if info["success"]: 
@@ -34,8 +36,17 @@ def flow_pipeline():
                 
             except Exception as e: 
                 logger.error(f"[{t}] Pipeline failed: {type(e).__name__}: {e}")
-                
+                transformation_errors.append(f"[{t}] {type(e).__name__}: {e}")
         else: 
             logger.warning(f"[{t}] Bronze pull unsuccessful - skipping {t}")
+            
+    if transformation_errors: 
+        with SessionLocal() as session: 
+            latest = session.query(PullLog).order_by(PullLog.pulled_at.desc()).first()
+            if latest: 
+                latest.is_success = False
+                latest.error_message = (latest.error_message or "") + "\n\Transformation errors:\n" + "\n".join(transformation_errors)
+                session.commit()
+                logger.error(f"Silver stage completed with {len(transformation_errors)} error(s)")
             
     logger.info("flow_pipeline complete")

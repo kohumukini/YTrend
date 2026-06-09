@@ -12,7 +12,7 @@ def get_json_bronze(ticker):
             raise ValueError(f"No bronze data found for ticker: {ticker}")
 
 
-        df = pd.read_json(json_data)
+        df = pd.DataFrame(json_data)
 
         return df
 

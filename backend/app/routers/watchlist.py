@@ -19,7 +19,7 @@ def get_watchlist_data(db: Session = Depends(get_db_session)):
         return row
     else: 
         logger.warning(f"No data found for watchlist")
-        return {"message": "No data found for watchlist"}
+        raise HTTPException(status_code=404, detail=f"Error retrieving watchlist: Data Not Found")
     
 @router.post("/add/{ticker}", response_model = WatchListSchema)
 def add_to_watchlist(ticker: str, db: Session = Depends(get_db_session)):

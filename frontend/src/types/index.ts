@@ -2,7 +2,7 @@
 
 export interface RawSilverItem {
     ticker: string;
-    timestamp: number;
+    timestamp: string;
     close_price: number;
     open_price: number;
     high: number;

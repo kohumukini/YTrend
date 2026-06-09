@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:8000';
 
 export const SilverToChart = (raw: RawSilverItem[]): ChartDataPoint[] => {
     return [...raw].reverse().map(item => ({
-        date: item.timestamp, 
+        date: Date.parse(item.timestamp), 
         close: item.close_price, 
         rsi: item.rsi_14, 
         sma_20: item.sma_20, 
