@@ -114,7 +114,7 @@ Additional Database Tables
 - Silver Layer: Feature Engineering (RSI, MA, Volatility)
 - FastAPI Endpoings
 - React/TypeScript Dashboard
-- LTSM model training & integration (PyTorch)
+- LSTM model training & integration (PyTorch)
 - Classification Model with confidence scores (scikit-learn)
 
 ## Roadmap
@@ -122,7 +122,7 @@ Additional Database Tables
 - [X] Complete Silver Layer
 - [ ] FastAPI endpoint implementation for all layers
 - [ ] React Dashboard with charts & Data display
-- [ ] Buy/Sell Classifier & LTSM Model Training Pipelines
+- [ ] Buy/Sell Classifier & LSTM Model Training Pipelines
 - [ ] Complete Gold ETL Layer
 - [ ] Automate Ingestion
 - [ ] TBA
