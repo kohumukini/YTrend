@@ -130,3 +130,5 @@ Additional Database Tables
 ## Lessons Learned
 - Project development should closely model the agile framework. Incremental steps for database features include a roadmap from SQLite Files -> Localized Postgres -> Dockerized Postgres Imaging to produce consistent deliverables without wasting time on environment creation. 
 - FastAPI routers are built like React components in their architecture, allowing main app to run complex delegated tasks with just headers and reducing overhead. 
+- Models require vast amounts of data. Models like LSTMs especially require lots of information in order to both create weights and reinforce those weights. For this system, the model has to both learn the weights and the patterns based on several tickers, which have similar instances of ups/downs, especially for stocks that have survived market collapse and have sustained themselves over the years.
+- Software often expands much further than anticipated. Although this is seemingly intuitive, the realization hits when building full-stack applications with dysfunctional features requiring an increase in the amounts of features. 
