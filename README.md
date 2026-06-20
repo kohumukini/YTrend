@@ -132,3 +132,10 @@ Additional Database Tables
 - FastAPI routers are built like React components in their architecture, allowing main app to run complex delegated tasks with just headers and reducing overhead. 
 - Models require vast amounts of data. Models like LSTMs especially require lots of information in order to both create weights and reinforce those weights. For this system, the model has to both learn the weights and the patterns based on several tickers, which have similar instances of ups/downs, especially for stocks that have survived market collapse and have sustained themselves over the years.
 - Software often expands much further than anticipated. Although this is seemingly intuitive, the realization hits when building full-stack applications with dysfunctional features requiring an increase in the amounts of features. 
+
+## Model Performance
+The LSTM model was trained across 10 large-cap and mega-cap tickers on max historical data. The data was split 70/15/15. The model achieves ~90% directional accuracy on held-out testing data , predicting the monthly price direction and estimated price percentage change from a 42 look back window. 
+
+![ML Model loss over epochs graph](./images/Screenshot%202026-06-19%20192736.png)
+<br>
+![ML Model Prediction vs Actual graph](./images/Screenshot%202026-06-19%20192743.png)
