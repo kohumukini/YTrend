@@ -22,7 +22,7 @@ def flow_pipeline():
     logger.info("Pipeline starting...")
     response = bronze_task()
     
-    transformation_errors = []
+    silver_errors = []
 
     for t, info in response.items(): 
         if info["success"]: 
@@ -32,21 +32,22 @@ def flow_pipeline():
                 silver_task(t, transformed_df)
                 logger.info(f"[{t}] Silver updated successfully")
             except ValueError as e: 
-                logger.error(f"[{t}] Error: {e}")
+                logger.error(f"[{t}] Extract failed: {e}")
+                silver_errors.append(f"[{t}] ValueError: {e}")
                 
             except Exception as e: 
                 logger.error(f"[{t}] Pipeline failed: {type(e).__name__}: {e}")
-                transformation_errors.append(f"[{t}] {type(e).__name__}: {e}")
+                silver_errors.append(f"[{t}] {type(e).__name__}: {e}")
         else: 
             logger.warning(f"[{t}] Bronze pull unsuccessful - skipping {t}")
             
-    if transformation_errors: 
+    if silver_errors: 
         with SessionLocal() as session: 
             latest = session.query(PullLog).order_by(PullLog.pulled_at.desc()).first()
             if latest: 
                 latest.is_success = False
-                latest.error_message = (latest.error_message or "") + "\n\Transformation errors:\n" + "\n".join(transformation_errors)
+                latest.error_message = (latest.error_message or "") + "\nSilver errors:\n" + "\n".join(silver_errors)
                 session.commit()
-                logger.error(f"Silver stage completed with {len(transformation_errors)} error(s)")
+            logger.error(f"Silver stage completed with {len(silver_errors)} error(s)")
             
     logger.info("flow_pipeline complete")

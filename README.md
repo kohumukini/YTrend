@@ -136,5 +136,24 @@ Additional Database Tables
 ## Model Performance
 The LSTM model was trained across 10 large-cap and mega-cap tickers on max historical data. The data was split 70/15/15. The model achieves ~90% directional accuracy on held-out testing data , predicting the monthly price direction and estimated price percentage change from a 42 look back window. 
 
-![ML Model loss over epochs graph](./images/Screenshot%202026-06-19%20192736.png)
-![ML Model Prediction vs Actual graph](./images/Screenshot%202026-06-19%20192743.png)
+## Progress Images
+
+<div align="center">
+  <img src="./images/Screenshot 2026-06-19 192736.png" width="70%" alt="ML Model Loss Over Epochs">
+  <p><em>Figure 1: Training and validation loss over epochs. Shows model convergence without overfitting</em></p>
+</div>
+
+<div align="center">
+    <img src="./images/Screenshot%202026-06-19%20192743.png">
+    <p><em>Figure 2: Prediction data overlayed atop true values. Shows model directional accuracy. </em></p>
+</div>
+
+<div align="center">
+    <img src="./images/Screenshot%202026-06-21%20163932.png">
+    <p><em>Figure 3: Frontend Dashboard UI. Shows interactive graph, and sidebar with real data and dummy stats </em></p>
+</div>
+
+<div align="center">
+    <img src="./images/Screenshot 2026-06-21 165920.png">
+    <p><em>Figure 4: Confusion matrix comparing counts of prediction data vs true data. Shows model is more conservative with guesswork </em></p>
+</div>

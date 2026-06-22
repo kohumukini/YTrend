@@ -73,15 +73,18 @@ def calculate_bollinger_bands(dataframe, window_size, num_std):
 
     return dataframe
 
-def transform(dataframe): 
+def transform(dataframe):
     df = dataframe.sort_index().copy()
     
-    df = calculate_moving_average(dataframe, 20)
-    df = calculate_moving_average(dataframe, 50)
-    df = calculate_moving_average(dataframe, 100)
-    df = calculate_rsi(dataframe, 14)
-    df = calculate_ewm_rsi(dataframe, 14)
-    df = calculate_volatility(dataframe, 30)
-    df = calculate_bollinger_bands(dataframe, 30, 2)
-
+    df = calculate_moving_average(df, 20)
+    df = calculate_moving_average(df, 50)
+    df = calculate_moving_average(df, 100)
+    df = calculate_rsi(df, 14)
+    df = calculate_ewm_rsi(df, 14)
+    df = calculate_volatility(df, 30)
+    df = calculate_bollinger_bands(df, 30, 2)
+    
+    df = df.replace([float('inf'), float("-inf")], pd.NA)
+    df = df.dropna(how='all')
+    
     return df

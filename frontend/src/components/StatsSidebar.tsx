@@ -27,10 +27,10 @@ const StatsSidebar = ({ data }: { data: SidebarStats | null }) => {
     return (
         <div className="h-full flex flex-col gap-5">
             <h3 className="text-[#818184] font-bold">Live Data</h3>
-            <ItemCard label="Current Price" value={`$${currentPrice}`} indicator="↑ 2.4% today" isPositive={true}/>
-            <ItemCard label="Volume" value={`${volume}`} indicator="↓ -5% vs avg" isPositive={false}/>
-            <ItemCard label="Volatility" value={`${volatility}`}/>
-            <ItemCard label="Yearly Range" value={`${yearlyLow}-${yearlyHigh}`} />
+            <ItemCard label="Current Price" value={`$${currentPrice.toFixed(2)}`} indicator="↑ 2.4% today" isPositive={true}/>
+            <ItemCard label="Volume" value={`${volume.toLocaleString()}`} indicator="↓ -5% vs avg" isPositive={false}/>
+            <ItemCard label="Volatility" value={`${volatility.toFixed(2)}%`}/>
+            <ItemCard label="Yearly Range" value={`$${yearlyLow.toFixed(2)} - $${yearlyHigh.toFixed(2)}`} />
         </div>
     );
 }

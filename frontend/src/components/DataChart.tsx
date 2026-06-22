@@ -1,4 +1,4 @@
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts"; 
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush} from "recharts"; 
 import { type ChartDataPoint } from "../types/index"
 
 type DataChart = {
@@ -14,6 +14,7 @@ const DataChart = ({ data, errorMessage }: DataChart) => {
         <ResponsiveContainer width='100%' aspect={1.618} >
             <LineChart data={data} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
                 <CartesianGrid strokeDasharray="3 3" />
+                <Brush dataKey="date" height={30} stroke="#4ade80" tickFormatter={(ms) => new Date(ms).toLocaleDateString()} />
                 <XAxis 
                     dataKey="date"
                     scale="time"
@@ -34,17 +35,17 @@ const DataChart = ({ data, errorMessage }: DataChart) => {
                 <Legend />
 
                 {/* Main price */}
-                <Line type="monotone" dataKey="close" stroke="#ffffff" dot={false} name="Close" />
+                <Line type="monotone" dataKey="close" stroke="#FF6B2B" dot={false} strokeWidth={3} name="Close" />
 
                 {/* SMA's*/}
-                <Line type="monotone" dataKey="sma_20" stroke="#4ade80" dot={false} name="SMA 20" />
-                <Line type="monotone" dataKey="sma_50" stroke="#facc15" dot={false} name="SMA 50" />
-                <Line type="monotone" dataKey="sma_100" stroke="#fb923c" dot={false} name="SMA 100" />
+                <Line type="monotone" dataKey="sma_20" stroke="#4ade80" dot={false} strokeDasharray="4 4" strokeWidth={2}  name="SMA 20" />
+                <Line type="monotone" dataKey="sma_50" stroke="#facc15" dot={false} strokeDasharray="4 4" strokeWidth={2}  name="SMA 50" />
+                <Line type="monotone" dataKey="sma_100" stroke="#fb923c" dot={false} strokeDasharray="4 4" strokeWidth={2}  name="SMA 100" />
 
                 {/* Bollinger Bands */}
-                <Line type="monotone" dataKey="bb_upper_30" stroke="#60a5fa" dot={false} strokeDasharray="4 4" name="BB Upper" />
-                <Line type="monotone" dataKey="bb_mid_30" stroke="#818cf8" dot={false} strokeDasharray="4 4" name="BB Mid" />
-                <Line type="monotone" dataKey="bb_lower_30" stroke="#60a5fa" dot={false} strokeDasharray="4 4" name="BB Lower" />
+                <Line type="monotone" dataKey="bb_upper_30" stroke="#60a5fa" dot={false} strokeWidth={2} name="BB Upper" />
+                <Line type="monotone" dataKey="bb_mid_30" stroke="#818cf8" dot={false} strokeDasharray="4 4" strokeWidth={2}  name="BB Mid" />
+                <Line type="monotone" dataKey="bb_lower_30" stroke="#60a5fa" dot={false} strokeWidth={2} name="BB Lower" />
             </LineChart>
         </ResponsiveContainer>
     );
