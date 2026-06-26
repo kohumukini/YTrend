@@ -75,11 +75,15 @@ class GoldStock(Base):
 
     id = Column(Integer, primary_key = True)
     ticker = Column(String)
-    timestamp = Column(DateTime)
-    actual_price = Column(Float)
+    timestamp = Column(DateTime, server_default=func.now())
+    actual_pct_change = Column(Float)
     lstm_prediction = Column(Float, nullable = True)
     buy_signal = Column(String, nullable = True)
     confidence_score = Column(Float)
+    
+    __table_args__ = (
+        UniqueConstraint('ticker', 'timestamp', name = "")
+    )
 
 class Watchlist(Base): 
     __tablename__ = "stock_watch_list"

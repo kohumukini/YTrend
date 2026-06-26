@@ -2,7 +2,7 @@
 from .database import SessionLocal, Watchlist
 
 # Default tickers to test
-TICKERS_TO_TRACK = ["AAPL", "TSLA", "NVDA", "MSFT", "BTC-USD"]
+TICKERS_TO_TRACK = ["AAPL", "TSLA", "NVDA", "MSFT"]
 
 def seed_watchlist(): 
     # `with` opens and closes the session while allowing the use of session with an alias

@@ -42,7 +42,7 @@ class SilverDataItem(AppBase):
 class GoldDataItem(AppBase):
     ticker: str
     timestamp: datetime
-    actual_price: float
+    actual_pct_change: float
     lstm_prediction: float | None
     buy_signal: str | None
     confidence_score: float

@@ -21,18 +21,20 @@ const ItemCard = ({ label, value, indicator, isPositive }: ItemCardProps) => {
 
 const StatsSidebar = ({ data }: { data: SidebarStats | null }) => {
     if (!data) return <p className="text-[#818184]">No Data Yet</p>;
-    const { currentPrice, volume, volatility, yearlyHigh, yearlyLow } = data; 
+    const { currentPrice, volume, volatility, yearlyHigh, yearlyLow, yesterdayPrice, yesterdayVolume } = data; 
 
+    const dailyPriceChange = ((yesterdayPrice - currentPrice) / yesterdayPrice * 100).toFixed(2); 
+    const dailyVolumeChange = ((yesterdayVolume - volume) / yesterdayVolume * 100).toFixed(2);
 
     return (
         <div className="h-full flex flex-col gap-5">
             <h3 className="text-[#818184] font-bold">Live Data</h3>
-            <ItemCard label="Current Price" value={`$${currentPrice.toFixed(2)}`} indicator="↑ 2.4% today" isPositive={true}/>
-            <ItemCard label="Volume" value={`${volume.toLocaleString()}`} indicator="↓ -5% vs avg" isPositive={false}/>
+            <ItemCard label="Current Price" value={`$${currentPrice.toFixed(2)}`} indicator={`${Number(dailyPriceChange) > 0 ? "↑ Up": "↓ Down"} ${dailyPriceChange}%`} isPositive={Number(dailyPriceChange) > 0}/>
+            <ItemCard label="Volume" value={`${volume.toLocaleString()}`} indicator={`${Number(dailyVolumeChange) > 0 ? "↑ Up": "↓ Down"} ${dailyVolumeChange}%`} isPositive={Number(dailyVolumeChange) > 0}/>
             <ItemCard label="Volatility" value={`${volatility.toFixed(2)}%`}/>
             <ItemCard label="Yearly Range" value={`$${yearlyLow.toFixed(2)} - $${yearlyHigh.toFixed(2)}`} />
         </div>
     );
 }
 
-export default StatsSidebar;
+export default StatsSidebar; 

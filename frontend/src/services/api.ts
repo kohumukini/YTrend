@@ -21,7 +21,8 @@ export const SilverToChart = (raw: RawSilverItem[]): ChartDataPoint[] => {
 
 export const SilverToSidebar = (raw: RawSilverItem[]): SidebarStats => {
     const lastItem = raw[0]; 
-    const pastYear = raw.slice(0, 365); 
+    const secondToLastItem = raw[1];
+    const pastYear = raw.slice(0, 252); 
 
     return {
         currentPrice: lastItem.close_price, 
@@ -29,6 +30,8 @@ export const SilverToSidebar = (raw: RawSilverItem[]): SidebarStats => {
         yearlyHigh: pastYear.reduce((max, item) => item.high > max ? item.high : max, raw[0].high), 
         yearlyLow: pastYear.reduce((min, item) => item.low < min ? item.low : min, raw[0].low), 
         volatility: lastItem.volatility_30 ?? 0,
+        yesterdayPrice: secondToLastItem.close_price, 
+        yesterdayVolume: secondToLastItem.volume, 
     };
 };
 

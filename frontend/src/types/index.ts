@@ -53,6 +53,8 @@ export interface SidebarStats {
     yearlyHigh: number; 
     yearlyLow: number; 
     volatility: number; 
+    yesterdayPrice: number; 
+    yesterdayVolume: number; 
 }
 
 export interface PredictionData {
