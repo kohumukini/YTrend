@@ -66,7 +66,7 @@ class SilverStock(Base):
     bollinger_band_mid_30 = Column(Float)
 
     __table_args__ = (
-        UniqueConstraint('ticker', 'timestamp', name = 'uq_ticker_timestamp'),
+        UniqueConstraint('ticker', 'timestamp', name = 'uq_silver_ticker_timestamp'),
     )
 
 # Creates the final table where we output predictive data
@@ -76,13 +76,14 @@ class GoldStock(Base):
     id = Column(Integer, primary_key = True)
     ticker = Column(String)
     timestamp = Column(DateTime, server_default=func.now())
-    actual_pct_change = Column(Float)
-    lstm_prediction = Column(Float, nullable = True)
-    buy_signal = Column(String, nullable = True)
-    confidence_score = Column(Float)
+    last_month_pct_change = Column(Float)
+    predicted_pct_change = Column(Float, nullable=True)
+    direction = Column(String, nullable=True)
+    signal = Column(String, nullable=True)
+    confidence = Column(Float)
     
     __table_args__ = (
-        UniqueConstraint('ticker', 'timestamp', name = "")
+        UniqueConstraint('ticker', 'timestamp', name = "uq_gold_ticker_timestamp"),
     )
 
 class Watchlist(Base): 

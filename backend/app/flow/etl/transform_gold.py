@@ -4,11 +4,11 @@ from ..logger import logger
 def transform_gold(dataframe): 
     df = dataframe.copy()
     
-    df = df.drop(['high', 'low', 'open_price'], axis=1, errors="ignore")
+    df = df.drop(['High', 'Low', 'Open'], axis=1, errors="ignore")
     
     # Assest that values match
     expected_columns = {
-        'close_price', 'volume', 'sma_20', 'sma_50', 'sma_100',
+        'Close', 'Volume', 'sma_20', 'sma_50', 'sma_100',
         'rsi_14', 'ewm_rsi_14', 'volatility_30',
         'bollinger_band_upper_30', 'bollinger_band_lower_30', 'bollinger_band_mid_30'
     }
@@ -21,12 +21,12 @@ def transform_gold(dataframe):
         logger.error(f"[transform_gold] Column mismatch: Missing - {missing}, Extra - {extra}") 
         return None
     
-    columns_to_drop = ['close_price', 'volume', 'sma_20', 'sma_50', 'sma_100', 'volatility_30', 
+    columns_to_drop = ['Close', 'Volume', 'sma_20', 'sma_50', 'sma_100', 'volatility_30', 
                         'day_of_week']
     
     # Calculating target
     
-    df['target'] = df['close_price'].pct_change(21)
+    df['target'] = df['Close'].pct_change(21)
     
     target_lower = df["target"].quantile(0.01)
     target_upper = df["target"].quantile(0.99)
@@ -34,11 +34,11 @@ def transform_gold(dataframe):
     df["target"] = df["target"].clip(lower=target_lower, upper=target_upper)
     
     # Calculating Price Relative MA's
-    df['close_to_sma_20'] = (df['close_price'] / df['sma_20']) - 1
-    df['close_to_sma_50'] = (df['close_price'] / df['sma_50']) - 1
+    df['close_to_sma_20'] = (df['Close'] / df['sma_20']) - 1
+    df['close_to_sma_50'] = (df['Close'] / df['sma_50']) - 1
     
     # Calculating Bollinger Bands
-    df["pc_b"] = (df['close_price'] - df["bollinger_band_lower_30"]) / (df['bollinger_band_upper_30'] - df['bollinger_band_lower_30'])
+    df["pc_b"] = (df['Close'] - df["bollinger_band_lower_30"]) / (df['bollinger_band_upper_30'] - df['bollinger_band_lower_30'])
     df["pc_b"] = df["pc_b"].clip(lower=0, upper=1)
     
     df['bb_width'] = (df['bollinger_band_upper_30'] - df['bollinger_band_lower_30']) / df['bollinger_band_mid_30']
@@ -55,11 +55,11 @@ def transform_gold(dataframe):
         logger.info(f"RSI Correlation: {corr_value:.3f} - Dropping ewm_rsi_14 {abs(corr_value)} > threshold (0.85)")
         
     # Calculating Volatility
-    pct_returns_series = df['close_price'].pct_change()
+    pct_returns_series = df['Close'].pct_change()
     df['pct_volatility_30'] = pct_returns_series.rolling(window=30, min_periods=30).std()
     
     # Calculating Volume
-    volume_pct_change = df["volume"].pct_change()
+    volume_pct_change = df["Volume"].pct_change()
     df['volume_pct_change'] = volume_pct_change
     
     vol_lower = df['volume_pct_change'].quantile(0.01)

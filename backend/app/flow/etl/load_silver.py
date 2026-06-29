@@ -59,3 +59,5 @@ def update_silver(ticker, df):
             logger.error(f"[load_silver] Error Traceback: {traceback.format_exc()}")
             session.rollback()
             raise
+        
+    return df
