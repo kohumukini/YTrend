@@ -35,13 +35,13 @@ export const SilverToSidebar = (raw: RawSilverItem[]): SidebarStats => {
     };
 };
 
-export const GoldToPrediction = (raw: RawGoldItem[]): PredictionData => {
-    const lastItem = raw[0]; 
-
+export const GoldToPrediction = (raw: RawGoldItem): PredictionData => {
     return {
-        forecast: lastItem.lstm_prediction ?? 0, 
-        signal: lastItem.buy_signal ?? 'N/A', 
-        confidence: lastItem.confidence_score
+        forecast: raw.predicted_pct_change, 
+        signal: raw.signal, 
+        confidence: raw.confidence, 
+        direction: raw.direction, 
+        last_month_pct_change: raw.last_month_pct_change
     };
 };
 
@@ -61,20 +61,20 @@ export async function fetchSilverData(ticker: string): Promise<RawSilverItem[]> 
     return response.json(); 
 }
 
-// export async function fetchGoldData(ticker: string): Promise<RawGoldItem[]> {
-//     const response = await fetch(`${BASE_URL}/${ticker}`, {
-//         method: 'GET', 
-//         headers: {
-//             'Content-type': 'application/json', 
-//         },
-//     })
+export async function fetchGoldData(ticker: string): Promise<RawGoldItem> {
+    const response = await fetch(`${BASE_URL}/gold/${ticker}`, {
+        method: 'GET', 
+        headers: {
+            'Content-type': 'application/json', 
+        },
+    })
     
-//     if (!response.ok) {
-//         throw new Error(`Error fetching data for gold ticker ${ticker}: ${response.statusText}`)
-//     }
+    if (!response.ok) {
+        throw new Error(`Error fetching data for gold ticker ${ticker}: ${response.statusText}`)
+    }
 
-//     return response.json(); 
-// }
+    return response.json(); 
+}
 
 export async function fetchWatchListData(): Promise<RawWatchListItem[]> {
     const response = await fetch(`${BASE_URL}/watchlist/data`, {

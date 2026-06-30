@@ -1,13 +1,10 @@
 import { useState } from 'react'; 
 import './index.css';
 
-// API requests
-import { SilverToChart, SilverToSidebar/*, GoldToPrediction*/, fetchSilverData/*, fetchGoldData */} from "./services/api"; 
+import { SilverToChart, SilverToSidebar, GoldToPrediction, fetchSilverData, fetchGoldData } from "./services/api"; 
 
-// Type imports
 import { type ChartDataPoint, type SidebarStats, type PredictionData } from "./types/index"; 
 
-// Components
 import Header from "./components/Header"; 
 import Toolbar from "./components/Toolbar"
 import DataChart from "./components/DataChart";
@@ -32,19 +29,19 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false); 
   const [error, setError] = useState<string | null>(null);
-  // Consider using abort controller in the future
+
   const handleRun = async () => {
     setIsLoading(true)
     setError(null)
     try {
       const silverRaw = await fetchSilverData(dashboard.ticker)
-      // const goldRaw = await fetchGoldData(dashboard.ticker)
+      const goldRaw = await fetchGoldData(dashboard.ticker)
       
       setDashboard((prevDash) => ({
         ...prevDash, 
         chartData: SilverToChart(silverRaw), 
         sidebarStats: SilverToSidebar(silverRaw), 
-        // predictionData: GoldToPrediction(goldRaw), 
+        predictionData: GoldToPrediction(goldRaw), 
       }))
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to fetch data";
@@ -55,15 +52,13 @@ const App = () => {
     }
   }
 
-  
-
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
       <main className="flex flex-row h-[60%] border-b border-white/10">
         <div className="basis-3/4 m-4 p-8 flex flex-col items-center">
           <Toolbar onClick={handleRun} buttonText={isLoading ? "Loading..." : "▷ Run"}/>
-          <DataChart data={dashboard.chartData} errorMessage={error ? error : undefined}/>
+          <DataChart data={dashboard.chartData} errorMessage={error ?? undefined}/>
         </div>
         <aside className="basis-1/4 bg-[#141418] p-8 border-l border-white/10">
           <StatsSidebar data={dashboard.sidebarStats} />

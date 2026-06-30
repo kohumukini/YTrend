@@ -47,3 +47,4 @@ class GoldDataItem(AppBase):
     direction: str | None
     signal: str | None
     confidence: float | None
+    

@@ -23,10 +23,11 @@ export interface RawSilverItem {
 export interface RawGoldItem {
     ticker: string; 
     timestamp: string; 
-    actual_price: number;
-    lstm_prediction?: number;
-    buy_signal?: string; 
-    confidence_score: number;
+    last_month_pct_change?: number; 
+    predicted_pct_change?: number;
+    direction?: string;
+    signal?: string;
+    confidence?: number; 
 }
 
 export interface RawWatchListItem {
@@ -59,6 +60,8 @@ export interface SidebarStats {
 
 export interface PredictionData {
     forecast?: number; 
-    signal?: string;
-    confidence?: number; 
+    signal: string;
+    confidence: number; 
+    direction: string; 
+    last_month_pct_change: number; 
 }

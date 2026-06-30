@@ -4,7 +4,7 @@ import torch
 from sqlalchemy.dialects.postgresql import insert
 from ...database import GoldStock, SessionLocal
 from ..logger import logger
-from ..model import load_models, WINqDOW_SIZE
+from ..model import load_models, WINDOW_SIZE
 from .transform_gold import transform_gold
 
 PROB_THRESHOLD = 0.65
