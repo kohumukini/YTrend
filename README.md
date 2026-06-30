@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Full-Stack YFinance Analysis Platform</h1>
-    <img src="https://img.shields.io/badge/Project_Status-In_Development-red" height=25 />
+    <img src="https://img.shields.io/badge/Project_Status-Completed-green   " height=25 />
     <p>
         <img src="https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB" height=25/>
         <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff" height=25/>
@@ -120,18 +120,18 @@ Additional Database Tables
 ## Roadmap
 
 - [X] Complete Silver Layer
-- [ ] FastAPI endpoint implementation for all layers
-- [ ] React Dashboard with charts & Data display
-- [ ] Buy/Sell Classifier & LSTM Model Training Pipelines
-- [ ] Complete Gold ETL Layer
-- [ ] Automate Ingestion
-- [ ] TBA
+- [X] FastAPI endpoint implementation for all layers
+- [X] React Dashboard with charts & Data display
+- [X] Buy/Sell Classifier & LSTM Model Training Pipelines
+- [X] Complete Gold ETL Layer
+- [X] Implement ticker interactivity
 
 ## Lessons Learned
 - Project development should closely model the agile framework. Incremental steps for database features include a roadmap from SQLite Files -> Localized Postgres -> Dockerized Postgres Imaging to produce consistent deliverables without wasting time on environment creation. 
 - FastAPI routers are built like React components in their architecture, allowing main app to run complex delegated tasks with just headers and reducing overhead. 
 - Models require vast amounts of data. Models like LSTMs especially require lots of information in order to both create weights and reinforce those weights. For this system, the model has to both learn the weights and the patterns based on several tickers, which have similar instances of ups/downs, especially for stocks that have survived market collapse and have sustained themselves over the years.
 - Software often expands much further than anticipated. Although this is seemingly intuitive, the realization hits when building full-stack applications with dysfunctional features requiring an increase in the amounts of features. 
+- PLAN PROJECTS. 90% of the errors encountered routed back to a lack of planning, whether it came to the schema, the initial design, implementing routers, designing the types, adjusting functions to fit needs, running pipelines correctly, etc. These are all issues that are resolved during the planning phase, where the cogs are mapped to one another, and the lego blueprint is tied together before physical implementation. 
 
 ## Model Performance
 The LSTM model was trained across 10 large-cap and mega-cap tickers on max historical data. The data was split 70/15/15. The model achieves ~90% directional accuracy on held-out testing data , predicting the monthly price direction and estimated price percentage change from a 42 look back window. 
@@ -156,4 +156,14 @@ The LSTM model was trained across 10 large-cap and mega-cap tickers on max histo
 <div align="center">
     <img src="./images/Screenshot 2026-06-21 165920.png">
     <p><em>Figure 4: Confusion matrix comparing counts of prediction data vs true data. Shows model is more conservative with guesswork </em></p>
+</div>
+
+<div align="center">
+    <img src="./images/Screenshot 2026-06-29 222924.png">
+    <p><em>Figure 5: Prediction UI filled with actual prediction data </em></p>
+</div>
+
+<div align="center">
+    <img src="./images/Screenshot 2026-06-29 222958.png">
+    <p><em>Figure 6: UI including ticker selector & stats sidebar with real-time data </em></p>
 </div>

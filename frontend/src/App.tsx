@@ -57,7 +57,12 @@ const App = () => {
       <Header />
       <main className="flex flex-row h-[60%] border-b border-white/10">
         <div className="basis-3/4 m-4 p-8 flex flex-col items-center">
-          <Toolbar onClick={handleRun} buttonText={isLoading ? "Loading..." : "▷ Run"}/>
+          <Toolbar
+              onClick={handleRun}
+              buttonText={isLoading ? "Loading..." : "▷ Run"}
+              activeTicker={dashboard.ticker}
+              onTickerChange={(ticker) => setDashboard(prev => ({ ...prev, ticker }))}
+          />
           <DataChart data={dashboard.chartData} errorMessage={error ?? undefined}/>
         </div>
         <aside className="basis-1/4 bg-[#141418] p-8 border-l border-white/10">
