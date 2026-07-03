@@ -18,7 +18,7 @@ const ItemCard = ({label, value, isOrange}: ItemCardProps) => {
 
 const StatsAndPredictions = ({ data }: { data: PredictionData | null }) => {
     if (!data) return null; 
-    const { forecast, signal, confidence, direction, last_month_pct_change } = data; 
+    const { forecast, signal, direction, last_month_pct_change } = data; 
 
     return (
         <div className="flex flex-col w-full items-center border-t border-white/10">
@@ -26,7 +26,6 @@ const StatsAndPredictions = ({ data }: { data: PredictionData | null }) => {
             <section className="flex flex-row w-[80%] justify-evenly p-4 items-center">
                 <ItemCard label="Next Month's Forecasted % Change" value={`${Number(forecast).toFixed(2)}%`} isOrange={true}/>
                 <ItemCard label="Price Direction" value={direction} />
-                <ItemCard label="Confidence % in Signal" value={`${Number(confidence).toFixed(2)}%`} />
                 <ItemCard label="Signal" value={signal ? signal : "N/A"} isOrange={true}/>
                 <ItemCard label="Last Month's Price % Change" value={Number(last_month_pct_change).toFixed(2)} />
             </section>

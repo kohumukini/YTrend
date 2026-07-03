@@ -61,7 +61,6 @@ export interface SidebarStats {
 export interface PredictionData {
     forecast?: number; 
     signal: string;
-    confidence: number; 
     direction: string; 
     last_month_pct_change: number; 
 }
