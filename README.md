@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Full-Stack YFinance Analysis Platform</h1>
-    <img src="https://img.shields.io/badge/Project_Status-Completed-green   " height=25 />
+    <img src="https://img.shields.io/badge/Project_Status-Incomplete-red   " height=25 />
     <p>
         <img src="https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB" height=25/>
         <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff" height=25/>
